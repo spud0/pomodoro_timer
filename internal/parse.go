@@ -3,29 +3,39 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
+	"time"
+	// 	"github.com/spud0/pomodoro_timer/internal"
 )
 
-func parse () {
+func parse () (time.Time, string) {
 	
-	// Unsiged integers for time
-	timeHrs := flag.int64("hrs",   0, "Amount of Hours");
-	timeMins := flag.int64("mins", 5, "Amount of Minutes");
-	timeSecs := flag.int64("secs", 0, "Amount of Seconds");
-
+	timeHrs := flag.Int64("hrs",   0, "Amount of Hours");
+	timeMins := flag.Int64("mins", 5, "Amount of Minutes");
+	timeSecs := flag.Int64("secs", 0, "Amount of Seconds");
 	color := flag.String("color", "white", "Color for timer");
+
 	flag.Parse();	
 
-	if   {
-
+	if *timeHrs >= 0 && *timeMins >= 0 && *timeSecs >= 0  {
+		now := time.Now()
+		currentTime := time.Date(now.Year(), now.Month(), now.Day(), int(*timeHrs), 
+								int(*timeMins), int(*timeSecs), 0, now.Location(),)	
+		return currentTime, *color
+	
+	} else {
+		fmt.Printf("Invalid input. Doesn't support negative time values.\n")
+		flag.Usage() 
+		return time.Time{}, *color
 	}
-
-	if {
-	}
-
-	fmt.Printf("Time: %s\n", *time); 
-	fmt.Printf("Color: %s\n", *color); 
 }
 
 func main() {
-	parse();
+	timeObj, _ := parse()
+	if timeObj.IsZero() {
+		fmt.Printf("no time provided\n")	
+		os.Exit(1)
+	} else {
+		fmt.Printf("time provided\n")	
+	}	
 }
