@@ -6,7 +6,7 @@ A Pomodoro Timer written in Go.
 
 ## Run it!
 ```
-	go git ... 
+go git ... 
 ```
 
 ## Why? 
