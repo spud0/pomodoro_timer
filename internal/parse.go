@@ -1,14 +1,14 @@
-package main
+package internal
 
 import (
 	"flag"
 	"fmt"
 	"os"
 	"time"
-	// 	"github.com/spud0/pomodoro_timer/internal"
+	"github.com/spud0/pomodoro_timer/internal"
 )
 
-func parse () (time.Time, string) {
+func ParseInputs () (time.Time, string) {
 	
 	timeHrs := flag.Int64("hrs",   0, "Amount of Hours");
 	timeMins := flag.Int64("mins", 5, "Amount of Minutes");
@@ -30,6 +30,7 @@ func parse () (time.Time, string) {
 	}
 }
 
+/*
 func main() {
 	timeObj, _ := parse()
 	if timeObj.IsZero() {
@@ -38,4 +39,6 @@ func main() {
 	} else {
 		fmt.Printf("time provided\n")	
 	}	
-}
+} */
+
+
