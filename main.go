@@ -4,23 +4,21 @@ import (
 	"fmt"
 	"log"
 	"github.com/jroimartin/gocui"
-	"internal/parse.go"
+	"pomodoro_timer/internal"
 )
 
 func main() {
-
-	// Parse CLI
-	
 
 	g, err := gocui.NewGui(gocui.OutputNormal)
 	if err != nil {
 		log.Panicln(err)
 	}
 	defer g.Close()
-
 	g.SetManagerFunc(layout)
 
-	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
+	err = g.SetKeybinding("", gocui.KeyCtrlC,  gocui.ModNone, quit); 
+
+	if err != nil {
 		log.Panicln(err)
 	}
 
@@ -45,7 +43,10 @@ func layout(g *gocui.Gui) error {
         v.Title = "Hello View" // Setting a title for the view
         v.Autoscroll = true // Automatically scroll to the bottom when new content is added
         v.Highlight = true // Enable highlighting
-        fmt.Fprintln(v, "Hello world!")
+		
+		// Parse CLI
+		timerAmount, _ := internal.ParseInputs()
+        fmt.Fprintln(v, timerAmount.Format())
     }
     return nil
 }
