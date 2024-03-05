@@ -2,9 +2,9 @@ package internal
 
 import (
 	"fmt"
-	// "time"
+	"time"
+	"pomodoro_timer/internal"
 	// "github.com/jroimartin/gocui"
-	//"github.com/spud0/pomodoro_timer/internal"
 )
 
 
