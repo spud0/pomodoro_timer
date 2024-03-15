@@ -11,16 +11,7 @@ func UpdateTime (timeLeft *time.Time) time.Time {
 }
 
 // 'alert' halfway
-func  ... (timeLeft time.Time) bool {
-	
-}
-
-
-// 'alert' 3/4 of the way
-func  ... (timeLeft time.Time) bool {
-	
-}
-
+// func  QuarterTimeReached (timeLeft time.Time) bool { }
 
 func UpdateTui(timeLeft *time.Time) string {	
 	// Format the time into a string	
