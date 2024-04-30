@@ -2,7 +2,7 @@
 A Pomodoro Timer written in Go. 
 
 ## How it Works: 
-This project depends on [gocui](https://github.com/jroimartin/gocui) for the styling of the terminal. 
+This project depends on [bubbletea](https://github.com/charmbracelet/bubbletea) for the styling of the terminal. This project also depends on [lipgloss](https://github.com/charmbracelet/lipgloss) for adding tabs to the 'pages' in the timer. 
 
 ## Run it!
 ```
