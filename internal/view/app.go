@@ -1,6 +1,27 @@
+package view
 
-// The view for the timer
-func (p Pomodoro) View () {
+import (
+	"fmt"
+	"time"
+)
 
+// Access the model package, for the Pomodoro Object
+type model struct {
+	model *model.Pomodoro
+}
+
+// The application structure
+type app struct {
+	model model
+}
+
+// Creates a new application being given a Pomodoro Object
+func NewApp(pom *model.Pomodoro) tea.Model {
+
+	return &app {
+		model : model{
+			Pomodoro : pom,	
+		},  	
+	} 
 
 }
