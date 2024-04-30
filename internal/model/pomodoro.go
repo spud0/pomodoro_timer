@@ -24,8 +24,20 @@ func NewPom (dur, stopAfter time.Duratino) *Pomodoro {
 
 // Starts the timer
 func (pom *Pomodoro) Start() {
-
 	pom.Active = true
-	pom.StartTime = time.Now()
-	pom.EndTime = pom.StartTime.Add(pom.Duration)
+	pom.StartTime = time.Now(
+	
+	)// Add the duration to the start to get the EndTime
+	pom.EndTime = pom.StartTime.Add(pom.Duration) 
 }
+
+
+func (pom *Pomodoro) Stop() {
+	pom.Active = false
+}
+
+
+
+
+
+
