@@ -25,3 +25,23 @@ func NewApp(pom *model.Pomodoro) tea.Model {
 	} 
 
 }
+
+// Initializes the app, no cmd function given
+func (a app) Init () tea.Cmd {
+	return nil
+}
+
+// The Update function, 
+func (a app) Update (msg tea.Msg) (tea.Model, tea.Cmd) {
+	
+	switch msg.(type) {
+		case tea.KeyMsg: 
+
+
+	} 
+
+	return a, nil
+
+	} 
+
+}
