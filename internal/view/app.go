@@ -36,12 +36,10 @@ func (a app) Update (msg tea.Msg) (tea.Model, tea.Cmd) {
 	
 	switch msg.(type) {
 		case tea.KeyMsg: 
-
-
+			
+		case tea.KeyMsg: 		
+			return a, nil
 	} 
 
 	return a, nil
-
-	} 
-
 }
