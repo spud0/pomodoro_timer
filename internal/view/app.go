@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 	
-	"github.com/spud0/pomodoro_timer/internal/model"
+	"github.com/spud0/pomodoro_timer/internal"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -51,23 +51,21 @@ func (a app) Update (msg tea.Msg) (tea.Model, tea.Cmd) {
 			case "ctrl+c", "q": 
 				return a, tea.Quit
 		
-			// Start the break	
-			case "b": 
-				return a, nil
+			// Start the timer 'r' -> resume
+			case "r": 
+				a.Pomodoro.Start()
 		} 
 
-	case tea.TickMsg:
-		if a.Pomodoro.Active  {
-			return a, tea.Tick(time.Second, 
-				func(time.Time) tea.Msg {
-					return tea.TickMsg{}	
-			})
+	case time.Time:
+		if a.Pomodoro.Active && a.Pomodoro.RemainingTime() <= 0 {
+			a.Pomodoro.Stop()
+			fmt.Println("timers done!")
 		} 
 
 	}
 }
 
-	return a, nil
+	return a, a.tick
 }
 
 func (a app) View () string {
