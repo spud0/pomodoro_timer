@@ -27,12 +27,19 @@ func NewApp(pom *model.Pomodoro) tea.Model {
 			Pomodoro : pom,	
 		},  	
 	} 
-
 }
 
 // Initializes the app, no cmd function given
 func (a app) Init () tea.Cmd {
 	return nil
+}
+
+// Ticks the timer
+func (a app) tick() tea.Cmd {
+
+	return tea.Tick(time.Second, func(t time.Time) tea.Msg {
+		return t	
+	} 
 }
 
 // The Update function, 
@@ -43,8 +50,10 @@ func (a app) Update (msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 			case "ctrl+c", "q": 
 				return a, tea.Quit
-			
-			// case : return a, nil
+		
+			// Start the break	
+			case "b": 
+				return a, nil
 		} 
 
 	case tea.TickMsg:
