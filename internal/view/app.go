@@ -1,90 +1,70 @@
 package view
 
 import (
-	"fmt"
-	"strings"
-	"time"
-	
-	"github.com/spud0/pomodoro_timer/internal"
-	tea "github.com/charmbracelet/bubbletea"
+    "fmt"
+    "strings"
+    "time"
+    
+    "github.com/spud0/pomodoro_timer/internal/model"
+    tea "github.com/charmbracelet/bubbletea"
 )
 
-// Access the model package, for the Pomodoro Object
-type model struct {
-	model *model.Pomodoro
+type Model struct {
+    Pomodoro *model.Pomodoro
 }
 
-// The application structure
-type app struct {
-	model model
-}
-
-// Creates a new application being given a Pomodoro Object
 func NewApp(pom *model.Pomodoro) tea.Model {
-
-	return &app {
-		model : model{
-			Pomodoro : pom,	
-		},  	
-	} 
+    return Model{
+        Pomodoro: pom,
+    }
 }
 
-// Initializes the app, no cmd function given
-func (a app) Init () tea.Cmd {
-	return nil
+func (m Model) Init() tea.Cmd {
+    return m.tick()
 }
 
-// Ticks the timer
-func (a app) tick() tea.Cmd {
-
-	return tea.Tick(time.Second, func(t time.Time) tea.Msg {
-		return t	
-	} 
+func (m Model) tick() tea.Cmd {
+    return tea.Tick(time.Second, func(t time.Time) tea.Msg {
+        return t
+    })
 }
 
-// The Update function, 
-func (a app) Update (msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+    switch msg := msg.(type) {
+    case tea.KeyMsg:
+        switch msg.String() {
+        case "ctrl+c", "q", "esc":
+            return m, tea.Quit
+        case "r":
+            m.Pomodoro.Start()
+        case "p":
+            m.Pomodoro.Stop()
+        }
+    case time.Time:
+        if m.Pomodoro.Active && m.Pomodoro.RemainingTime() <= 0 {
+            m.Pomodoro.Stop()
+            fmt.Println("Timer's done!")
+        }
+    }
 
-	switch msg := msg.(type) {
-	case tea.KeyMsg:	
-		switch msg.String() {
-			case "ctrl+c", "q": 
-				return a, tea.Quit
-		
-			// Start the timer 'r' -> resume
-			case "r": 
-				a.Pomodoro.Start()
-		} 
-
-	case time.Time:
-		if a.Pomodoro.Active && a.Pomodoro.RemainingTime() <= 0 {
-			a.Pomodoro.Stop()
-			fmt.Println("timers done!")
-		} 
-
-	}
+    return m, m.tick()
 }
 
-	return a, a.tick
+func (m Model) View() string {
+    var result strings.Builder
+
+    if m.Pomodoro.Active {
+        remTime := m.Pomodoro.RemainingTime()
+        mins := int(remTime.Minutes())
+        secs := int(remTime.Seconds()) % 60
+
+        fmt.Fprintf(&result, "Pomodoro timer: %02d:%02d\n", mins, secs)
+        result.WriteString("[p]: pause, [q]/[esc]: quit")
+    } else {
+        result.WriteString("Pomodoro isn't active...\n")
+        result.WriteString("[r]: resume, [q]/[esc]: quit")
+    }
+
+    return result.String()
 }
 
-func (a app) View () string {
-	
-	var result strings.Builder
-
-	if a.Pomodoro.Active {
-		remTime = a.Pomodoro.RemainingTime()
-		mins = int(rem.Minutes()) 
-		secs = int(rem.Seconds()) % 60
-
-		fmt.Fprintf(&result, "pom timer: %02d:%02d\n", mins, secs)
-
-		result.WriteString(" [p] : pause, [q] / [esc]: quit")
-	} else {
-
-		result.WriteString("pom isn't active...")
-		result.WriteString(" [p] : pause, [q] / [esc] : quit")
-	}
-
-	return result.String()
-}
